@@ -1,2 +1,24 @@
 # cardyo
-A simple and lightweight scientifically backed flashcard studying tool. Create decks and use them to master any subject with scientifically proven methods.
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
