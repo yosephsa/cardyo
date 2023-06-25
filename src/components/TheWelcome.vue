@@ -46,17 +46,6 @@ import SupportIcon from './icons/IconSupport.vue'
     <template #icon>
       <CommunityIcon />
     </template>
-    <template #heading>Two-sided cards</template>
-
-    The well known flash card, one side for the question, the other for the answer. You can also turn things around and
-    use the answer to guess the question Jeopardy style!
-  </WelcomeItem>
-
-
-  <WelcomeItem>
-    <template #icon>
-      <CommunityIcon />
-    </template>
     <template #heading>Three-sided cards</template>
 
     Sometimes the answer alone isn't enough - when you also need to know the concept and see an image or hear a sound,
