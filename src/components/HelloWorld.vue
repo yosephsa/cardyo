@@ -1,15 +1,8 @@
-<script setup lang="ts">
-defineProps<{
-  msg: string,
-  description: string
-}>()
-</script>
-
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
+    <h1 class="green">You did it!</h1>
     <h3>
-      {{ description }}
+      You've begun your journey to better studying. Click on Decks to get started!
     </h3>
   </div>
 </template>
