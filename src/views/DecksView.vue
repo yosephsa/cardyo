@@ -1,6 +1,8 @@
 <template>
   <div class="decks">
     <h1>This is the Decks page</h1>
+    <br/>
+    <v-btn>test</v-btn>
   </div>
 </template>
 
