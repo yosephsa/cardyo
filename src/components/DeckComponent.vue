@@ -31,7 +31,7 @@ import { Deck } from '@/models/decks.model';
             <v-carousel v-on:update:model-value="showAnswer = false;">
                 <v-carousel-item v-for="card in deck.cards" cover>
                     <div class="card-wrapper">
-                        <h1 class="question">{{ card.question }}</h1>
+                        <h2 class="question">{{ card.question }}</h2>
                         <div class="answer-wrapper">
                             <button class="answer-cloak" v-if="!showAnswer" v-on:click="showAnswer = true">Show Answer</button>
                             <h3 class="answer" v-bind:class="{'hide': !showAnswer}"> {{ card.answer }}</h3>
