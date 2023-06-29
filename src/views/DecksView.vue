@@ -58,12 +58,15 @@
 <style lang="scss" scoped>
   .decks {
     display: flex;
-    position: relative;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     @media (min-width: 1024px) {
-        min-height: 100vh;
+      position: relative;
+      min-height: 100vh;
+    }
+    @media (max-width: 1024px) {
+      margin-top: 20px;
     }
   }
 
