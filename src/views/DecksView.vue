@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { Deck } from '../models/decks.model';
-  import DeckComponent from '@/components/DeckComponent.vue';
+  import { type Deck } from '../models/decks.model';
+  import DeckComponent from '@/components/decks/DeckComponent.vue';
+  import AddDeckComponent from '@/components/decks/AddDeckComponent.vue';
+  import ModifyDeckComponent from '@/components/decks/ModifyDeckComponent.vue';
 
   export default {
     data() {
         let decks: Deck[] = [];
         return {
-            dialog: false,
+            addDeckDialog: false,
             decks: decks
         };
     },
@@ -36,7 +38,7 @@
     beforeMount() {
         this.$data.decks = this.getDecks();
     },
-    components: { DeckComponent }
+    components: { DeckComponent, AddDeckComponent, ModifyDeckComponent }
 }
 
 </script>
@@ -46,6 +48,8 @@
     <h1>This is the Decks page</h1>
 
     <DeckComponent v-for="deck in decks" v-bind:deck="deck"></DeckComponent>
+
+    <AddDeckComponent></AddDeckComponent>
   </div>
 </template>
 

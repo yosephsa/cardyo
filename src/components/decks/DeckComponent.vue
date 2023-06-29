@@ -1,9 +1,10 @@
 <script lang="ts">
-import { Deck } from '@/models/decks.model';
+import { type Deck } from '@/models/decks.model';
+import type { PropType } from 'vue/dist/vue.js';
 
     export default {
         props: {
-            deck: Deck
+            deck: Object as PropType<Deck>
         },
         data() {
             return {
@@ -28,7 +29,7 @@ import { Deck } from '@/models/decks.model';
     class="dialog-modal"
     >
         <v-card>
-            <v-carousel v-on:update:model-value="showAnswer = false;">
+            <v-carousel v-on:update:model-value="showAnswer = false;" hide-delimiters>
                 <v-carousel-item v-for="card in deck.cards" cover>
                     <div class="card-wrapper">
                         <h2 class="question">{{ card.question }}</h2>
