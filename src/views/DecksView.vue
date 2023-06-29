@@ -49,7 +49,7 @@
 
     <DeckComponent v-for="deck in decks" v-bind:deck="deck"></DeckComponent>
 
-    <AddDeckComponent></AddDeckComponent>
+    <AddDeckComponent class="add-deck"></AddDeckComponent>
   </div>
 </template>
 
@@ -62,6 +62,12 @@
     @media (min-width: 1024px) {
         min-height: 100vh;
     }
+  }
+
+  .add-deck {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
   }
 </style>
 
