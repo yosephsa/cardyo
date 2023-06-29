@@ -31,20 +31,17 @@ export default {
                 v-model="card.thirdSideAnswer"
             ></v-text-field>
         </v-card-item>
-
         <v-card class="buttons-wrapper">
-            <v-btn class="btn" color="primary" :variant="'outlined'" @Click="modelValue?.cards.push({} as Card)">Save</v-btn>
+            <!--<v-btn class="btn" color="primary" :variant="'outlined'" @Click="modelValue?.cards.push({} as Card)">Save</v-btn>-->
             <v-btn class="btn" color="primary" :variant="'tonal'" @Click="modelValue?.cards.push({} as Card)">Add Card</v-btn>
         </v-card>
     </v-card>
-    
-    
-    
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .card-wrapper {
         padding: 40px 0;
+        position: relative;
     }
     .card-item-wrapper {
         margin: 0 40px;

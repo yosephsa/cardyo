@@ -33,7 +33,7 @@
 </script>
 
 <template>
-    <v-btn :variant="'tonal'" color="primary" class="button" @Click="addDeckInit()">
+    <v-btn :variant="dialog ? 'outlined' : 'tonal'" color="primary" class="button" @Click="addDeckInit()">
         Add
         <v-dialog
             v-model="dialog"
@@ -48,7 +48,7 @@
 
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
     .dialog-modal {
         max-width: 700px;
         max-height: 90vh;

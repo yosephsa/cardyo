@@ -1,10 +1,14 @@
 <script lang="ts">
 import { type Deck } from '@/models/decks.model';
 import type { PropType } from 'vue/dist/vue.js';
+import ModifyDeckComponent from './ModifyDeckComponent.vue'
+
 
     export default {
         props: {
-            deck: Object as PropType<Deck>
+            deck: Object as PropType<Deck>,
+            editMode: Boolean,
+            deleteMode: Boolean
         },
         data() {
             return {
@@ -12,7 +16,13 @@ import type { PropType } from 'vue/dist/vue.js';
                 dialog: false,
                 showAnswer: false
             }
-        }
+        },
+        computed: {
+            isDeleteMode(): Boolean {
+                return !this.editMode && this.deleteMode;
+            }
+        },
+        components: { ModifyDeckComponent }
     }
 </script>
 
@@ -22,14 +32,18 @@ import type { PropType } from 'vue/dist/vue.js';
       color="primary"
       :variant="'outlined'"
     >
-    {{ deck.name }}
+    <v-icon v-if="editMode" icon="mdi-pencil"></v-icon>
+    <v-icon v-if="isDeleteMode" icon="mdi-pencil"></v-icon>
+    <span>&nbsp;{{ deck.name }}</span>
 
     <v-dialog
     v-model="dialog"
     activator="parent"
     class="dialog-modal"
     >
-        <v-card>
+        <ModifyDeckComponent v-model="deck" v-if="editMode"></ModifyDeckComponent>
+
+        <v-card v-if="!editMode">
             <v-carousel v-on:update:model-value="showAnswer = false;" hide-delimiters>
                 <v-carousel-item v-for="card in deck.cards" cover>
                     <div class="card-wrapper">

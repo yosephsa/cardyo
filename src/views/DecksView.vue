@@ -9,7 +9,8 @@
         let decks: Deck[] = [];
         return {
             addDeckDialog: false,
-            decks: decks
+            decks: decks,
+            editDecks: false
         };
     },
     methods: {
@@ -45,17 +46,19 @@
 
 <template>
   <div class="decks">
-    <h1>This is the Decks page</h1>
 
-    <DeckComponent v-for="deck in decks" v-bind:deck="deck"></DeckComponent>
+    <DeckComponent v-for="deck in decks" :deck="deck" :editMode="editDecks"></DeckComponent>
+
+    <v-btn class="edit-decks" color="primary" :variant="editDecks ? 'outlined' : 'tonal'" @Click="editDecks = !editDecks">Edit</v-btn>
 
     <AddDeckComponent class="add-deck"></AddDeckComponent>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .decks {
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -68,6 +71,15 @@
     position: absolute;
     right: 50px;
     bottom: 50px;
+  }
+  .edit-decks {
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+    display: flex;
+    width: 70px;
+    height: 50px;
+    box-shadow: 0px 0px 7px -2px rgb(123, 0, 189);
   }
 </style>
 
