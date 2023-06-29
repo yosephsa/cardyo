@@ -20,6 +20,7 @@ import type { PropType } from 'vue/dist/vue.js';
 
 <v-btn v-if="deck"
       color="primary"
+      :variant="'outlined'"
     >
     {{ deck.name }}
 

@@ -33,16 +33,15 @@
 </script>
 
 <template>
-    <v-btn class="button" @Click="addDeckInit()">+
+    <v-btn :variant="'tonal'" color="primary" class="button" @Click="addDeckInit()">
+        Add
         <v-dialog
             v-model="dialog"
             activator="parent"
             class="dialog-modal"
+            color="secondary"
             >
-            <v-card class="card">
-                {{ deck }}
-                <ModifyDeckComponent v-model="deck"></ModifyDeckComponent>
-            </v-card>
+            <ModifyDeckComponent v-model="deck"></ModifyDeckComponent>
             
         </v-dialog>
     </v-btn>
@@ -50,7 +49,14 @@
 </template>
 
 <style scoped>
+    .dialog-modal {
+        max-width: 700px;
+        max-height: 90vh;
+    }
     .button {
-        background: hsla(160, 100%, 37%, 1);
+        display: flex;
+        width: 70px;
+        height: 50px;
+        box-shadow: 0px 0px 7px -2px rgb(123, 0, 189);
     }
 </style>
