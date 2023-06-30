@@ -41,7 +41,7 @@ import ViewDeckComponent from './ViewDeckComponent.vue';
 <v-btn v-if="deck"
       color="primary"
       :variant="editMode ? 'outlined' : 'flat'"
-      @Click="dialog = true; editMode = false"
+      @Click="dialog = true"
     >
     <v-icon v-if="editMode" icon="mdi-pencil"></v-icon>
     <v-icon v-if="isDeleteMode" icon="mdi-pencil"></v-icon>
