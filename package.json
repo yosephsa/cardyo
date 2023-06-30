@@ -2,6 +2,10 @@
   "name": "vue-project",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20.3",
+    "npm": ">=9.6"
+  },
   "scripts": {
     "serve": "vite preview",
     "build": "vite build",
