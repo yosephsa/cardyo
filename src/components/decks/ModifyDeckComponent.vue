@@ -56,6 +56,11 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+    .dialog-modal {
+        width: 90%;
+        max-width: 700px;
+        max-height: 80vh;
+    }
     .card-wrapper {
         padding: 40px 0;
         position: relative;

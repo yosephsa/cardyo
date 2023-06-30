@@ -55,6 +55,7 @@ import type { PropType } from 'vue';
 .dialog-modal {
         width: 90%;
         max-width: 700px;
+        max-height: 80vh;
     }
     .card-wrapper {
         display: flex;

@@ -55,12 +55,12 @@
 
 <template>
   <div class="decks">
-    <DeckTileComponent v-for="deck in decks" :deck="deck" :editMode="editDecks"></DeckTileComponent>
+    <DeckTileComponent class="deck-tile" v-for="deck in decks" :deck="deck" v-model:editMode="editDecks"></DeckTileComponent>
 
     <ModifyDeckComponent v-model:deck="decks[decks.length-1]" v-model:dialog="addDeckDialog" class="add-deck"></ModifyDeckComponent>
 
     <v-btn class="decks-action left" color="primary" :variant="editDecks ? 'outlined' : 'tonal'" @Click="editDecks = !editDecks">Edit</v-btn>
-    <v-btn class="decks-action right" color="primary" :variant="editDecks ? 'outlined' : 'tonal'" @Click="addDeckInit()">Add</v-btn>
+    <v-btn class="decks-action right" color="primary" :variant="'tonal'" @Click="addDeckInit()">Add</v-btn>
   </div>
 </template>
 
@@ -76,6 +76,10 @@
     }
     @media (max-width: 1024px) {
       margin-top: 20px;
+    }
+
+    .deck-tile {
+      margin: 10px;
     }
   }
   .decks-action {

@@ -18,10 +18,19 @@ import ViewDeckComponent from './ViewDeckComponent.vue';
                 showAnswer: false
             }
         },
+        emits: ['update:editMode'],
         computed: {
             isDeleteMode(): Boolean {
                 return !this.editMode && this.deleteMode;
-            }
+            },
+            editMode: {
+                    get(): Boolean {
+                        return this.editMode
+                    },
+                    set(editMode: Boolean) {
+                        this.$emit('update:editMode', editMode)
+                    }
+                }
         },
         components: { ModifyDeckComponent, ViewDeckComponent }
     }
@@ -31,8 +40,8 @@ import ViewDeckComponent from './ViewDeckComponent.vue';
 
 <v-btn v-if="deck"
       color="primary"
-      :variant="'outlined'"
-      @Click="dialog = true"
+      :variant="editMode ? 'outlined' : 'flat'"
+      @Click="dialog = true; editMode = false"
     >
     <v-icon v-if="editMode" icon="mdi-pencil"></v-icon>
     <v-icon v-if="isDeleteMode" icon="mdi-pencil"></v-icon>
@@ -43,7 +52,3 @@ import ViewDeckComponent from './ViewDeckComponent.vue';
 </v-btn>
 
 </template>
-
-<style lang="scss" scoped>
-    
-</style>
