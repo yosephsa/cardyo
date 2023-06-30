@@ -1,51 +1,40 @@
 <script lang="ts">
-import { type Deck } from '@/models/decks.model';
-import type { PropType } from 'vue/dist/vue.js';
-import ModifyDeckComponent from './ModifyDeckComponent.vue'
-
+import type { Deck } from '@/models/decks.model';
+import type { PropType } from 'vue';
 
     export default {
         props: {
             deck: Object as PropType<Deck>,
-            editMode: Boolean,
-            deleteMode: Boolean
+            dialog: Boolean
         },
         data() {
             return {
-                deck: this.$props.deck,
-                dialog: false,
                 showAnswer: false
             }
         },
         computed: {
-            isDeleteMode(): Boolean {
-                return !this.editMode && this.deleteMode;
+            dialog: {
+                get(): Boolean {
+                    return this.dialog
+                },
+                set(dialog: Boolean) {
+                    this.$emit('update:dialog', dialog)
+                }
             }
         },
-        components: { ModifyDeckComponent }
+        emits: ['update:dialog']
+
     }
 </script>
 
 <template>
-
-<v-btn v-if="deck"
-      color="primary"
-      :variant="'outlined'"
-    >
-    <v-icon v-if="editMode" icon="mdi-pencil"></v-icon>
-    <v-icon v-if="isDeleteMode" icon="mdi-pencil"></v-icon>
-    <span>&nbsp;{{ deck.name }}</span>
-
     <v-dialog
     v-model="dialog"
-    activator="parent"
     class="dialog-modal"
     >
-        <ModifyDeckComponent v-model="deck" v-if="editMode"></ModifyDeckComponent>
-
-        <v-card v-if="!editMode">
+        <v-card>
             <v-carousel v-on:update:model-value="showAnswer = false;" hide-delimiters>
-                <v-carousel-item v-for="card in deck.cards" cover>
+                <v-carousel-item v-for="card in deck?.cards" cover>
                     <div class="card-wrapper">
                         <h2 class="question">{{ card.question }}</h2>
                         <div class="answer-wrapper">
@@ -56,16 +45,14 @@ import ModifyDeckComponent from './ModifyDeckComponent.vue'
                 </v-carousel-item>
             </v-carousel>
             <v-card-actions>
-                <v-btn color="primary" block @click="dialog = false"> Close Deck </v-btn>
+                <v-btn color="primary" block @Click="dialog = false"> Close Deck </v-btn>
             </v-card-actions>            
         </v-card>
     </v-dialog>
-</v-btn>
-
 </template>
 
 <style lang="scss" scoped>
-    .dialog-modal {
+.dialog-modal {
         width: 90%;
         max-width: 700px;
     }

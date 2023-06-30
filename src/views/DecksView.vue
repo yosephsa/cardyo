@@ -1,57 +1,66 @@
 <script lang="ts">
-  import { type Deck } from '../models/decks.model';
-  import DeckComponent from '@/components/decks/DeckComponent.vue';
-  import AddDeckComponent from '@/components/decks/AddDeckComponent.vue';
+  import { type Card, type Deck } from '../models/decks.model';
+  import DeckTileComponent from '@/components/decks/DeckTileComponent.vue';
   import ModifyDeckComponent from '@/components/decks/ModifyDeckComponent.vue';
 
   export default {
     data() {
-        let decks: Deck[] = [];
-        return {
-            addDeckDialog: false,
-            decks: decks,
-            editDecks: false
-        };
+      let decks: Deck[] = [];
+      return {
+        addDeckDialog: false,
+        decks: decks,
+        editDecks: false
+      };
     },
     methods: {
-        getDecks(): Deck[] {
-            return [
-                {
-                    name: "Sample Deck",
-                    cards: [
-                        {
-                            question: "How do you say hello in arabic?",
-                            answer: "السلام وعليكم (Salaam wa Alaikum)"
-                        },
-                        {
-                            question: "How do you say thank you in arabic?",
-                            answer: "شكرا (Shukran)"
-                        },
-                        {
-                            question: "How do you say you are welcome in arabic?",
-                            answer: "عفوا"
-                        }
-                    ]
-                }
-            ];
+      addDeckInit() {
+        this.addDeckDialog = true;
+        console.log(JSON.stringify(this.decks[this.decks.length - 1]));
+        if(this.isLastDeckPopulated()) {
+          this.decks.push({ name: 'New Deck', cards: [{} as Card]} as Deck);
         }
+      },
+      isLastDeckPopulated(): Boolean {
+        return this.decks[this.decks.length - 1].cards[0].question !== undefined;
+      },
+      getDecks(): Deck[] {
+        return [
+          {
+            name: "Sample Deck",
+            cards: [
+              {
+                question: "How do you say hello in arabic?",
+                answer: "السلام وعليكم (Salaam wa Alaikum)"
+              },
+              {
+                question: "How do you say thank you in arabic?",
+                answer: "شكرا (Shukran)"
+              },
+              {
+                question: "How do you say you are welcome in arabic?",
+                answer: "عفوا"
+              }
+            ]
+          }
+        ];
+      }
     },
     beforeMount() {
         this.$data.decks = this.getDecks();
     },
-    components: { DeckComponent, AddDeckComponent, ModifyDeckComponent }
+    components: { DeckTileComponent, ModifyDeckComponent }
 }
 
 </script>
 
 <template>
   <div class="decks">
+    <DeckTileComponent v-for="deck in decks" :deck="deck" :editMode="editDecks"></DeckTileComponent>
 
-    <DeckComponent v-for="deck in decks" :deck="deck" :editMode="editDecks"></DeckComponent>
+    <ModifyDeckComponent v-model:deck="decks[decks.length-1]" v-model:dialog="addDeckDialog" class="add-deck"></ModifyDeckComponent>
 
-    <v-btn class="edit-decks" color="primary" :variant="editDecks ? 'outlined' : 'tonal'" @Click="editDecks = !editDecks">Edit</v-btn>
-
-    <AddDeckComponent class="add-deck"></AddDeckComponent>
+    <v-btn class="decks-action left" color="primary" :variant="editDecks ? 'outlined' : 'tonal'" @Click="editDecks = !editDecks">Edit</v-btn>
+    <v-btn class="decks-action right" color="primary" :variant="editDecks ? 'outlined' : 'tonal'" @Click="addDeckInit()">Add</v-btn>
   </div>
 </template>
 
@@ -69,13 +78,7 @@
       margin-top: 20px;
     }
   }
-
-  .add-deck {
-    position: absolute;
-    right: 50px;
-    bottom: 50px;
-  }
-  .edit-decks {
+  .decks-action {
     position: absolute;
     left: 50px;
     bottom: 50px;
@@ -83,6 +86,14 @@
     width: 70px;
     height: 50px;
     box-shadow: 0px 0px 7px -2px rgb(123, 0, 189);
+    &.left {
+      left: 50px;
+      right: unset;
+    }
+    &.right {
+      right: 50px;
+      left: unset;
+    }
   }
 </style>
 
