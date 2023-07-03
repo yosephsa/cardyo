@@ -2,6 +2,7 @@
   import { type Card, type Deck } from '../models/decks.model';
   import DeckTileComponent from '@/components/decks/DeckTileComponent.vue';
   import ModifyDeckComponent from '@/components/decks/ModifyDeckComponent.vue';
+import { decksRepository } from '@/stores/storage';
 
   export default {
     data() {
@@ -9,7 +10,8 @@
       return {
         addDeckDialog: false,
         decks: decks,
-        editDecks: false
+        editDecks: false,
+        fetchDeckError: false
       };
     },
     methods: {
@@ -21,6 +23,8 @@
           deck.name = newDeck.name;
           deck.cards = newDeck.cards;
         }
+
+        decksRepository.saveDecks(this.decks);
       },
       addDeckInit() {
         this.addDeckDialog = true;
@@ -32,6 +36,16 @@
         return this.decks.length == 0 || !!this.decks[this.decks.length - 1].cards[0].question;
       }
     },
+    mounted() {
+      const fetchedDecks = decksRepository.fetchDecks();
+      if(fetchedDecks === undefined) {
+        this.decks = [];
+      } else if(!fetchedDecks) {
+        this.fetchDeckError = true;
+      } else {
+        this.decks = fetchedDecks;
+      }
+    },
     components: { DeckTileComponent, ModifyDeckComponent }
 }
 
@@ -39,15 +53,41 @@
 
 <template>
   <div class="decks">
-    <DeckTileComponent class="deck-tile" v-bind:key="i" v-for="(deck, i) in decks" @update:deck="tempDeck => updateDeck(tempDeck, deck)" :deck="deck"></DeckTileComponent>
+    <v-dialog
+      v-model="fetchDeckError"
+      >
+      <v-card class="error-card">
+        <h3>Error in fetching decks. Would you like to create a new deck?</h3>
+        <v-btn variant="tonal" color="green" @Click="decks = [] ; fetchDeckError=false">Yes</v-btn>
+      </v-card>
+    </v-dialog>
 
-    <ModifyDeckComponent v-if="addDeckDialog" v-model:deck="decks[decks.length-1]" v-model="addDeckDialog" class="add-deck"></ModifyDeckComponent>
+    <DeckTileComponent 
+      class="deck-tile" v-bind:key="i" 
+      v-for="(deck, i) in decks" 
+      @update:deck="tempDeck => updateDeck(tempDeck, deck)" 
+      :deck="deck">
+    </DeckTileComponent>
+
+    <ModifyDeckComponent 
+      class="add-deck" v-if="addDeckDialog" 
+      v-model="addDeckDialog" 
+      @update:deck="tempDeck => updateDeck(tempDeck, decks[decks.length-1])" 
+      :deck="decks[decks.length-1]">
+    </ModifyDeckComponent>
 
     <v-btn class="add-deck-btn" color="primary" :variant="'tonal'" @Click="addDeckInit()">Add</v-btn>
   </div>
 </template>
 
 <style lang="scss" scoped>
+  .error-card {
+    h3 {
+      margin-bottom: 20px;
+    }
+    padding: 20px;
+    color: red;
+  }
   .decks {
     display: flex;
     align-items: center;
