@@ -14,6 +14,12 @@ export default {
             tempDeck: undefined as unknown as Deck
         }
     },
+    methods: {
+        deleteCard(card: Card) {
+            const index = this.tempDeck.cards.indexOf(card);
+            this.tempDeck.cards.splice(index, 1);
+        }
+    },
     computed: {
         dialog: {
             get(): boolean {
@@ -43,6 +49,10 @@ export default {
                 <v-text-field label="Title" v-model="tempDeck.name"></v-text-field>
             </div>
             <v-card-item class="card-item-wrapper" v-bind:key="i" v-for="(card, i) in tempDeck.cards">
+                <v-btn class="delete-btn" @Click="deleteCard(card)">
+                    <v-icon icon="mdi-delete" color="red"></v-icon>
+                </v-btn>
+
                 <v-text-field class="compact" label="Question" v-model="card.question"></v-text-field>
                 <v-text-field class="compact" label="Answer"  v-model="card.answer"></v-text-field>
                 <v-radio-group class="compact" inline v-model="card.thirdSideType" label="Radio group label">
@@ -56,8 +66,8 @@ export default {
                 ></v-text-field>
             </v-card-item>
             <v-card class="buttons-wrapper">
-                <v-btn class="btn" color="primary" :variant="'outlined'" @Click="$emit('update:deck', tempDeck); dialog = false">Save</v-btn>
                 <v-btn class="btn" color="primary" :variant="'tonal'" @Click="tempDeck.cards.push({} as Card)">Add Card</v-btn>
+                <v-btn class="btn" color="primary" :variant="'outlined'" @Click="$emit('update:deck', tempDeck); dialog = false">Save</v-btn>
             </v-card>
         </v-card>
     </v-dialog>
@@ -75,7 +85,16 @@ export default {
         padding-top: 0;
     }
     .card-item-wrapper {
+        position: relative;
         margin: 0 40px;
+
+        .delete-btn {
+            position: absolute;
+            left: -30px;
+            width: 40px;
+            min-width: 40px;
+            height: 50px;
+        }
     }
     .title-wrapper {
         display: flex;
