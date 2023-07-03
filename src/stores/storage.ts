@@ -21,5 +21,5 @@ export const decksRepository = {
             console.error('failed fetching decks from local storage', e)
             return null;
         }
-    }
+    },
 }

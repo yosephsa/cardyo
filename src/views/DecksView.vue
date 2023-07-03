@@ -3,6 +3,7 @@
   import DeckTileComponent from '@/components/decks/DeckTileComponent.vue';
   import ModifyDeckComponent from '@/components/decks/ModifyDeckComponent.vue';
 import { decksRepository } from '@/stores/storage';
+import ContextMenu from '@imengyu/vue3-context-menu'
 
   export default {
     data() {
@@ -11,7 +12,9 @@ import { decksRepository } from '@/stores/storage';
         addDeckDialog: false,
         decks: decks,
         editDecks: false,
-        fetchDeckError: false
+        fetchDeckError: false,
+        importDialog: false,
+        importFile: null as unknown as File[]
       };
     },
     methods: {
@@ -25,6 +28,46 @@ import { decksRepository } from '@/stores/storage';
         }
 
         decksRepository.saveDecks(this.decks);
+      },
+      exportDecks() {
+        const exportUri = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.decks));
+        let dlAnchorElem = document.getElementById('downloadAnchorElem');
+        dlAnchorElem?.setAttribute("href", exportUri);
+        dlAnchorElem?.setAttribute("download", "cardyoDecks.json");
+        dlAnchorElem?.click();
+      },
+      onImportDecks() {
+        this.importFile[0].text().then((value: string) => {
+          try {
+            const newDecks: Deck[] = JSON.parse(value);
+            this.decks = this.decks.concat(newDecks);
+            decksRepository.saveDecks(this.decks);
+          } catch(e) {
+            this.fetchDeckError = true;
+            console.error('Failed to import decks', e);
+          }
+
+          this.importDialog = false;
+        });
+      },
+      onAddContextMenu(e : MouseEvent) {
+          e.preventDefault();
+
+        ContextMenu.showContextMenu({x: e.x, y: e.y, items: [
+            {
+              label: "Import", 
+              onClick: () => { 
+                this.importDialog = true;
+              }
+            },
+            { 
+              label: "Export", 
+              onClick: () => { 
+                this.exportDecks();
+              }
+            }
+          ]
+        }); 
       },
       addDeckInit() {
         this.addDeckDialog = true;
@@ -62,6 +105,16 @@ import { decksRepository } from '@/stores/storage';
       </v-card>
     </v-dialog>
 
+    <v-dialog
+      v-model="importDialog"
+      >
+      <v-card class="import-card">
+        <h2>Import decks</h2>
+        <v-file-input v-model="importFile" label="File input"></v-file-input>
+        <v-btn variant="tonal" color="green" @Click="onImportDecks()" >Import</v-btn>
+      </v-card>
+    </v-dialog>
+
     <DeckTileComponent 
       class="deck-tile" v-bind:key="i" 
       v-for="(deck, i) in decks" 
@@ -76,18 +129,31 @@ import { decksRepository } from '@/stores/storage';
       :deck="decks[decks.length-1]">
     </ModifyDeckComponent>
 
-    <v-btn class="add-deck-btn" color="primary" :variant="'tonal'" @Click="addDeckInit()">Add</v-btn>
+    <v-btn class="add-deck-btn" 
+      color="primary" 
+      :variant="'tonal'" 
+      @contextmenu="onAddContextMenu($event)"
+      @Click="addDeckInit()" 
+      > Add 
+    </v-btn>
+
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .error-card {
-    h3 {
-      margin-bottom: 20px;
-    }
-    padding: 20px;
-    color: red;
+.error-card {
+  h3 {
+    margin-bottom: 20px;
   }
+  padding: 20px;
+  color: red;
+}
+.import-card {
+  h2 {
+    margin-bottom: 20px;
+  }
+  padding: 20px;
+}
   .decks {
     display: flex;
     align-items: center;
