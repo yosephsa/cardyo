@@ -5,9 +5,14 @@ import 'vuetify/styles'
 // Vuetify
 import { createVuetify } from 'vuetify'
 
+let darkTheme = false;
+if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  darkTheme = true;
+}
+
 export default createVuetify({
   theme: {
-    defaultTheme: 'dark',
+    defaultTheme: darkTheme ? 'dark' : 'light',
     themes: {
       dark: {
         dark: true,
@@ -15,7 +20,7 @@ export default createVuetify({
           primary: '#0d8e63',
           secondary: '#732d99',
           accent: '#00bd7e',
-          error: '#bd00b7',
+          error: '#bd00b7'
         }
       },
     },
