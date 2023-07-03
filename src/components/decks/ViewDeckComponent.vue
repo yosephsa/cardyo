@@ -5,7 +5,7 @@ import type { PropType } from 'vue';
     export default {
         props: {
             deck: Object as PropType<Deck>,
-            dialog: Boolean
+            modelValue: Boolean
         },
         data() {
             return {
@@ -14,16 +14,11 @@ import type { PropType } from 'vue';
         },
         computed: {
             dialog: {
-                get(): Boolean {
-                    return this.dialog
-                },
-                set(dialog: Boolean) {
-                    this.$emit('update:dialog', dialog)
-                }
+                get(): boolean { return this.modelValue },
+                set(dialog: boolean) { this.$emit('update:modelValue', dialog) }
             }
         },
-        emits: ['update:dialog']
-
+        emits: ['update:modelValue']
     }
 </script>
 
@@ -34,7 +29,7 @@ import type { PropType } from 'vue';
     >
         <v-card>
             <v-carousel v-on:update:model-value="showAnswer = false;" hide-delimiters>
-                <v-carousel-item v-for="card in deck?.cards" cover>
+                <v-carousel-item v-bind:key="i" v-for="(card, i) in deck?.cards" cover>
                     <div class="card-wrapper">
                         <h2 class="question">{{ card.question }}</h2>
                         <div class="answer-wrapper">
