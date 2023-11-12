@@ -34,8 +34,8 @@ jobs:
 
     - name: Setup SSH Agent
       uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     
     - name: Deploy to server
       run: rsync -e 'ssh -p 21098' dist/* yosedzeu@yosephsa.com:/home/yosedzeu/public_html
