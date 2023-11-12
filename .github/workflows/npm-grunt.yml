@@ -15,10 +15,9 @@ jobs:
         node-version: [20.x]
 
     steps:
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Build w/ Node ${{ matrix.node-version }}
       uses: actions/setup-node@v3
+      uses: actions/checkout@v4
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Build
-      run: cd .. ; ls -al ; npm ci
+      run: npm ci
