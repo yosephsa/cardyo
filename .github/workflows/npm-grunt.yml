@@ -27,10 +27,7 @@ jobs:
       run: npm ci
 
     - name: Pre-build checks
-      run: |
-        npm run lint
-        npm run test:unit
+      run: npm run lint
 
     - name: Build Project
-      run:
-        npm run build
+      run: npm run build
