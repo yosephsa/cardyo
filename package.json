@@ -9,6 +9,7 @@
   "scripts": {
     "serve": "vite preview",
     "build": "vite build",
+    "pack": "tar -cf dist/cardyo.tar dist",
     "deploy": "rsync -r dist/* nginx@reverseproxy.local:/www/site-cardyo",
     "test:unit": "vitest",
     "test:e2e": "playwright test",

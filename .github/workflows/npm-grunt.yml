@@ -21,4 +21,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Build
-      run: ls -al ; npm ci
+      run: cd .. ; ls -al ; npm ci
