@@ -31,3 +31,9 @@ jobs:
 
     - name: Build Project
       run: npm run build
+
+    - name: Setup SSH Agent
+      uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: rsync -e 'ssh -p 21098' dist/* yosedzeu@yosephsa.com:/home/yosedzeu/public_html
