@@ -1,0 +1,41 @@
+name: NodeJS with Grunt
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v4
+    
+    - name: Uses Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: NPM Clean Install
+      run: npm ci
+
+    - name: Pre-build checks
+      run: npm run lint
+
+    - name: Build Project
+      run: npm run build
+
+    - name: Setup SSH Agent
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    
+    - name: Deploy to server
+      run: rsync -e 'ssh -p 21098' dist/* yosedzeu@yosephsa.com:/home/yosedzeu/public_html
